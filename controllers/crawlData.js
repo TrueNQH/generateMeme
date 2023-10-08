@@ -1,6 +1,7 @@
 const unirest = require("unirest");
 const cheerio = require("cheerio");
-let images_results = [];
+let images_results = {};
+let id=1;
  const  getImagesData = async () => {
     const selectRandom = () => {
     const userAgents = [
@@ -28,14 +29,15 @@ let images_results = [];
 
         
         $("div.rg_bx").each((i, el) => {
-        let json_string = $(el).find(".rg_meta").text();
-        images_results.push({
-            title: $(el).find(".iKjWAf .mVDMnf").text(),
-            source: $(el).find(".iKjWAf .FnqxG").text(),
-            link: JSON.parse(json_string).ru,
-            original: JSON.parse(json_string).ou,
-            thumbnail: $(el).find(".rg_l img").attr("src") ? $(el).find(".rg_l img").attr("src") : $(el).find(".rg_l img").attr("data-src"),
-        });
+            let json_string = $(el).find(".rg_meta").text();
+            let imageObj = {
+                original: JSON.parse(json_string).ou,
+                thumbnail: $(el).find(".rg_l img").attr("src") ? $(el).find(".rg_l img").attr("src") : $(el).find(".rg_l img").attr("data-src"),
+            };
+        
+            // Tạo tên thuộc tính động (original1, thumbnail1, original2, thumbnail2, ...)
+            images_results[`original${i + 1}`] = imageObj.original;
+            images_results[`thumbnail${i + 1}`] = imageObj.thumbnail;
         });
 
         
@@ -48,3 +50,12 @@ module.exports = {
     res.send(images_results)
   }
 }
+
+
+
+   
+    
+    
+   
+    
+
