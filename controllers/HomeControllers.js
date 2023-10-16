@@ -24,8 +24,7 @@ module.exports = {
                     transformedData[`url${index + 1}`] = item.url;
                 });
                 res.send({
-                    message: "success",
-                    data: transformedData
+                    transformedData
                 });
             }
         });
