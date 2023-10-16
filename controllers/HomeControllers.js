@@ -1,16 +1,35 @@
 'use strict'
+const axios = require('axios');
+const gis = require('g-i-s');
+  
 
-let crawlImageData = require("./crawlData")
 
 module.exports = {
     search: async(req, res) => {
-        let url = 'https://www.google.com/search?q=meme+g%E1%BA%A5u_pinterest&tbm=isch'
-        let response = await crawlImageData(url)
-        res.send({
-            message: "success",
-            data: response
-           
+        let keyword = req.query.q
+        var opts = {
+            searchTerm: keyword,
+            queryStringAddition: '&tbm=isch',
+            
+          };
+        gis(keyword, (error, results) => {
+            if(error) {
+                res.send({
+                    message: "fail",
+                });
+            } else {
+                const transformedData = {};
+
+                results.forEach((item, index) => {
+                    transformedData[`url${index + 1}`] = item.url;
+                });
+                res.send({
+                    message: "success",
+                    data: transformedData
+                });
+            }
         });
+        
     },
     home: (req, res) => {
         
@@ -21,3 +40,12 @@ module.exports = {
     },
     
 }
+
+
+
+
+ 
+   
+
+
+

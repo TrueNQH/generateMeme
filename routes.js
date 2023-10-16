@@ -1,6 +1,6 @@
 'use strict';
 let HomeControllers = require('./controllers/HomeControllers');
-let crawlData = require('./controllers/crawlData')
+
 module.exports = function(app) {
 
 
@@ -8,7 +8,7 @@ module.exports = function(app) {
   app.route('/')
     .get(HomeControllers.home)
   app.route('/search')
-    .get(crawlData.getImagesData)
+    .get(HomeControllers.search)
 
  
 };
